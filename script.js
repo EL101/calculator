@@ -32,3 +32,29 @@ function operate(operand1, operator, operand2) {
             break;
     }
 }
+
+let buttons = 
+[
+    ["(", ")", "%", "AC"],
+    ["7", "8", "9", "÷"],
+    ["4", "5", "6", "x"],
+    ["1", "2", "3", "-"],
+    ["0", ".", "=", "+"]
+];
+
+const calculator = document.querySelector(".calculator");
+function createButtons() {
+    for (let i = 0; i < buttons.length; i++) {
+        let row = document.createElement("div");
+        row.classList.toggle("row");
+        for (let j = 0; j < buttons[i].length; j++) {
+            let button = document.createElement("div");
+            button.classList.toggle("calc-button");
+            button.textContent = buttons[i][j];
+            row.append(button);
+        }
+        calculator.append(row);
+    }
+}
+
+createButtons();
