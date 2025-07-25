@@ -14,16 +14,14 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: 30px;
     width: 300px;
+    gap: 20px;
 }
 
 .row {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    gap: 30px;
     width: inherit;
 }
 
@@ -31,8 +29,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     background-color: antiquewhite;
     border-radius: 50%;
 }
