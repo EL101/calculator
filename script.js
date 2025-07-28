@@ -43,6 +43,7 @@ let buttons =
 ];
 
 const calculator = document.querySelector(".calculator");
+const calcButtons = document.querySelector(".buttons");
 function createButtons() {
     for (let i = 0; i < buttons.length; i++) {
         let row = document.createElement("div");
@@ -53,8 +54,20 @@ function createButtons() {
             button.textContent = buttons[i][j];
             row.append(button);
         }
-        calculator.append(row);
+        calcButtons.append(row);
     }
 }
 
 createButtons();
+
+const displayArea = document.querySelector(".display");
+calcButtons.addEventListener("click", (e) => {
+    const buttonPressed = e.target.textContent;
+    if (!e.target.classList.contains("calc-button")) {
+        return;
+    }
+    if (buttonPressed >= '0' && buttonPressed <= '9') {
+        displayArea.textContent += buttonPressed;
+        console.log(buttonPressed);
+    }
+});
