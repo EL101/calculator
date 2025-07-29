@@ -14,7 +14,7 @@ function divide(a, b) {
     return a / b;
 }
 
-let operand1 = 0;
+let operand1;
 let operator;
 let operand2;
 
@@ -24,9 +24,9 @@ function operate(operand1, operator, operand2) {
             add(operand1, operand2);
         case ("-"):
             subtract(operand1, operand2);
-        case ("*"):
+        case ("x"):
             multiply(operand1, operand2);
-        case ("/"):
+        case ("÷"):
             divide(operand1, operand2);
         default:
             break;
@@ -41,7 +41,9 @@ let buttons =
     ["1", "2", "3", "-"],
     ["0", ".", "=", "+"]
 ];
-
+let operators = [
+    '+', '-', 'x', '÷'
+];
 const calculator = document.querySelector(".calculator");
 const calcButtons = document.querySelector(".buttons");
 function createButtons() {
@@ -68,6 +70,17 @@ calcButtons.addEventListener("click", (e) => {
     }
     if (buttonPressed >= '0' && buttonPressed <= '9') {
         displayArea.textContent += buttonPressed;
-        console.log(buttonPressed);
+        if (operator === undefined) {
+            operand1 = parseInt(displayArea.textContent);
+        } else {
+            operand2 = parseInt(displayArea.textContent);
+            
+        }
+    } else if (operators.includes(buttonPressed)) {
+        if (operators.includes(displayArea.textContent.at(-1))) {
+            displayArea.textContent = displayArea.textContent.slice(0, -1);
+        }
+        displayArea.textContent += buttonPressed;
+        operator = buttonPressed;
     }
 });
