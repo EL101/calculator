@@ -67,6 +67,10 @@ calcButtons.addEventListener("click", (e) => {
     if (!e.target.classList.contains("calc-button")) {
         return;
     }
+    performClick(buttonPressed);
+});
+
+function performClick(buttonPressed) {
     if (buttonPressed >= '0' && buttonPressed <= '9') {
         if (operator === undefined || operator === null) {
             operand1 *= 10;
@@ -75,6 +79,10 @@ calcButtons.addEventListener("click", (e) => {
             if (operators.includes(displayArea.textContent.at(-1))) {
                 displayArea.textContent = "";
             }
+        }
+        console.log(displayArea.textContent);
+        if (displayArea.textContent.split('0').length - 1 === displayArea.textContent.length) {
+            displayArea.textContent = "";
         }
         displayArea.textContent += buttonPressed;
     } else if (operators.includes(buttonPressed)) {
@@ -90,5 +98,13 @@ calcButtons.addEventListener("click", (e) => {
         displayArea.textContent = result;
         operand1 = result;
         operator = null;
+    } else if (buttonPressed === 'AC') {
+        reset();
     }
-});
+}
+
+function reset() {
+    operand1 = 0;
+    operator = null;
+    displayArea.textContent = '0';
+}
