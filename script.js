@@ -17,6 +17,7 @@ function divide(a, b) {
 let operand1 = 0;
 let operator;
 let operand2 = 0;
+let afterEquals = false;
 
 function operate(operand1, operator, operand2) {
     switch (operator) {
@@ -81,6 +82,9 @@ function evaluateExpression() {
 }
 function performClick(buttonPressed) {
     if (buttonPressed >= '0' && buttonPressed <= '9') {
+        if (afterEquals) {
+            reset();
+        }
         operand2 *= 10;
         operand2 += +buttonPressed;
 
@@ -103,6 +107,7 @@ function performClick(buttonPressed) {
     } else if (buttonPressed === '=') {
         console.log(operand1, operator, operand2);
         evaluateExpression();
+        afterEquals = true;
     } else if (buttonPressed === 'AC') {
         reset();
     }
@@ -112,4 +117,5 @@ function reset() {
     operand1 = 0;
     operator = null;
     displayArea.textContent = '0';
+    afterEquals = false;
 }
