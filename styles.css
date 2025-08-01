@@ -8,6 +8,7 @@ body {
     display: flex;
     justify-content: center;
     padding: 200px;
+    font-family: "Micro 5", sans-serif;
 }
 
 .calculator {
@@ -19,9 +20,10 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 5px;
     margin-top: 20px;
 }
+
 .row {
     display: flex;
     align-items: baseline;
@@ -33,14 +35,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 60px;
-    height: 60px;
-    background-color: antiquewhite;
-    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    background-color: rgb(61, 55, 48);
+    color: white;
+    border-radius: 10%;
+    font-size: 35px;
 }
 
 .display {
-    border: 1px solid black;
+    border: 3px solid black;
     width: inherit;
     height: 75px;
     border-radius: 10px;
@@ -49,5 +53,5 @@ body {
     align-items: center;
     justify-content: flex-end;
     font-size: 50px;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
