@@ -1,6 +1,8 @@
 let maxDigits = 15;
 
 function add(a, b) {
+    console.log(a, typeof a);
+    console.log(b, typeof b);
     return round(a + b);
 }
 
@@ -21,17 +23,12 @@ function round(num) {
     if (strNum.length <= maxDigits) {
         return num;
     }
-    let decimal = strNum.indexOf('.');
-    strNum = strNum.slice(0, maxDigits + 1);
-    num = +strNum;
-    if (decimal === -1) {
-        return Math.round(num / 10);
-    }
-    let roundPower = 10 ** (maxDigits - decimal - 1);
-    return Math.round(num * roundPower) / roundPower;
+
+    console.log(num, typeof num);
+    return num.toExponential(maxDigits - 5);
+
 }
 
-console.log(round(12.1234123413456));
 let operand1 = 0;
 let operator;
 let operand2 = 0;
@@ -93,7 +90,7 @@ calcButtons.addEventListener("click", (e) => {
 function evaluateExpression() {
     let result = operate(operand1, operator, operand2);
     displayArea.textContent = result;
-    operand1 = result;
+    operand1 = +result;
     operator = null;
     operand2 = 0;
 }
@@ -123,6 +120,9 @@ function performClick(buttonPressed) {
         
     } else if (buttonPressed === '=') {
         evaluateExpression();
+        operand2 = operand1;
+        operand1 = 0;
+        operator = null;
         afterEquals = true;
     } else if (buttonPressed === 'AC') {
         reset();
