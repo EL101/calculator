@@ -16,6 +16,7 @@ function divide(a, b) {
 
 let operand1 = 0;
 let operator;
+let operand2 = 0;
 
 function operate(operand1, operator, operand2) {
     switch (operator) {
@@ -70,34 +71,38 @@ calcButtons.addEventListener("click", (e) => {
     performClick(buttonPressed);
 });
 
+function evaluateExpression() {
+    let result = operate(operand1, operator, operand2);
+    console.log(operand1, operand2, result);
+    displayArea.textContent = result;
+    operand1 = result;
+    operator = null;
+    operand2 = 0;
+}
 function performClick(buttonPressed) {
     if (buttonPressed >= '0' && buttonPressed <= '9') {
-        if (operator === undefined || operator === null) {
-            operand1 *= 10;
-            operand1 += +buttonPressed;
-        } else {
-            if (operators.includes(displayArea.textContent.at(-1))) {
-                displayArea.textContent = "";
-            }
-        }
-        console.log(displayArea.textContent);
+        operand2 *= 10;
+        operand2 += +buttonPressed;
+
         if (displayArea.textContent.split('0').length - 1 === displayArea.textContent.length) {
             displayArea.textContent = "";
         }
         displayArea.textContent += buttonPressed;
     } else if (operators.includes(buttonPressed)) {
+        if (operator === undefined || operator === null) {
+            operator = '+';
+        }
+        console.log(operand1, operator, operand2);
+        evaluateExpression();
         if (operators.includes(displayArea.textContent.at(-1))) {
             displayArea.textContent = displayArea.textContent.slice(0, -1);
         }
         displayArea.textContent += buttonPressed;
         operator = buttonPressed;
+        
     } else if (buttonPressed === '=') {
-        let operand2 = +displayArea.textContent;
-        let result = operate(operand1, operator, operand2);
-        console.log(operand1, operator, operand2, result);
-        displayArea.textContent = result;
-        operand1 = result;
-        operator = null;
+        console.log(operand1, operator, operand2);
+        evaluateExpression();
     } else if (buttonPressed === 'AC') {
         reset();
     }
