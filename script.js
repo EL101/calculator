@@ -1,4 +1,4 @@
-let maxDigits = 15;
+let maxDigits = 14;
 
 function add(a, b) {
     console.log(a, typeof a);
