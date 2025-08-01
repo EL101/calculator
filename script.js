@@ -74,7 +74,6 @@ calcButtons.addEventListener("click", (e) => {
 
 function evaluateExpression() {
     let result = operate(operand1, operator, operand2);
-    console.log(operand1, operand2, result);
     displayArea.textContent = result;
     operand1 = result;
     operator = null;
@@ -96,7 +95,6 @@ function performClick(buttonPressed) {
         if (operator === undefined || operator === null) {
             operator = '+';
         }
-        console.log(operand1, operator, operand2);
         evaluateExpression();
         if (operators.includes(displayArea.textContent.at(-1))) {
             displayArea.textContent = displayArea.textContent.slice(0, -1);
@@ -105,7 +103,6 @@ function performClick(buttonPressed) {
         operator = buttonPressed;
         
     } else if (buttonPressed === '=') {
-        console.log(operand1, operator, operand2);
         evaluateExpression();
         afterEquals = true;
     } else if (buttonPressed === 'AC') {
