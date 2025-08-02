@@ -1,7 +1,6 @@
 let maxDigits = 14;
 
 function add(a, b) {
-    console.log(typeof a, typeof b, a, b);
     return round(+a + +b);
 }
 
