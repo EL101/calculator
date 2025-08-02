@@ -1,19 +1,19 @@
 let maxDigits = 14;
 
 function add(a, b) {
-    return round(+a + +b);
+    return round(a + b);
 }
 
 function subtract(a, b) {
-    return round(+a - +b);
+    return round(a - b);
 }
 
 function multiply(a, b) {
-    return round(+a * +b);
+    return round(a * b);
 }
 
 function divide(a, b) {
-    return round(+a / +b);
+    return round(a / b);
 }
 
 function round(num) {
@@ -97,9 +97,12 @@ calcButtons.addEventListener('click', (e) => {
 });
 
 function evaluateExpression() {
-    let result = operate(+operand1, operator, +operand2);
+    console.log(parseFloat(operand1), parseFloat(operand2));
+    hasDecimal = false;
+    currDecimal = 1;
+    let result = operate(parseFloat(operand1), operator, parseFloat(operand2));
     displayArea.textContent = result;
-    operand1 = +result;
+    operand1 = parseFloat(result);
     operator = null;
     operand2 = 0;
 }
@@ -107,15 +110,23 @@ function evaluateExpression() {
 function hasLeadingZeros(string) {
     return string.split('0').length - 1 === string.length;
 }
+
 let isAfterOperation = false;
+let hasDecimal = false;
+let currDecimal = 1;
 
 function performClick(buttonPressed) {
     if (buttonPressed >= '0' && buttonPressed <= '9') {
         if (afterEquals) {
             reset();
         }
-        operand2 *= 10;
-        operand2 += +buttonPressed;
+        if (hasDecimal) {
+            operand2 += currDecimal * (+buttonPressed);
+            currDecimal *= 0.1;
+        } else {
+            operand2 *= 10;
+            operand2 += +buttonPressed;
+        }
 
         if (hasLeadingZeros(displayArea.textContent)) {
             displayArea.textContent = '';
@@ -156,6 +167,17 @@ function performClick(buttonPressed) {
         afterEquals = true;
     } else if (buttonPressed === 'AC') {
         reset();
+    } else if (buttonPressed === '.' && !hasDecimal) {
+        if (afterEquals) {
+            reset();
+        }
+        hasDecimal = true;
+        currDecimal *= 0.1;
+        if (hasLeadingZeros(displayArea.textContent)) {
+            displayArea.textContent = '0';
+        }
+        isAfterOperation = false;
+        displayArea.textContent += '.';
     }
 }
 
@@ -167,6 +189,8 @@ function reset() {
     displayPrevArea.textContent = '0';
     afterEquals = false;
     isAfterOperation = false;
+    hasDecimal = false;
+    currDecimal = 1;
 }
 
 document.addEventListener('keypress', (e) => {
