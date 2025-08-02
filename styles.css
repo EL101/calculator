@@ -44,7 +44,7 @@ body {
 }
 
 .display {
-    border: 3px solid black;
+    border: 3px solid rgb(61, 55, 48);
     width: inherit;
     height: 130px;
     border-radius: 10px;
@@ -60,6 +60,7 @@ body {
 
 .display-curr {
     font-size: 50px;
+    color: rgb(61, 55, 48);
 }
 
 .display-prev {

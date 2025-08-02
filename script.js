@@ -22,9 +22,7 @@ function round(num) {
         return num;
     }
 
-    console.log(num, typeof num);
     return num.toExponential(maxDigits - 5);
-
 }
 
 let operand1 = 0;
@@ -153,3 +151,21 @@ function reset() {
     afterEquals = false;
     isAfterOperation = false;
 }
+
+document.addEventListener("keypress", (e) => {
+    for (let row of buttons) {
+        for (let button of row) {
+            if (button === e.key) {
+                performClick(button);
+                break;
+            }
+        }
+    }
+    if (e.key === '*') {
+        performClick('x');
+    } else if (e.key === '/') {
+        performClick('÷');
+    } else if (e.key === 'Enter') {
+        performClick('=');
+    }
+});
