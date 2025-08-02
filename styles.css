@@ -6,13 +6,25 @@
 
 body {
     display: flex;
-    justify-content: center;
-    padding: 200px;
+    flex-direction: column;
+    align-items: center;
+    /* padding: 200px; */
     font-family: "Micro 5", sans-serif;
+    background-color: antiquewhite;
 }
 
+h1 {
+    margin: 50px;
+    font-size: 70px;
+    justify-self: flex-start;
+}
 .calculator {
+    box-sizing: content-box;
     width: 300px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: gray;
+    border: 2px solid rgb(61, 55, 48);
 }
 
 .buttons {
@@ -43,6 +55,9 @@ body {
     font-size: 35px;
 }
 
+.calc-button:hover {
+    background-color: rgb(44, 40, 35);
+}
 .display {
     border: 3px solid rgb(61, 55, 48);
     width: inherit;
@@ -53,7 +68,6 @@ body {
     flex-direction: column;
     align-items: flex-end;
     justify-content: space-evenly;
-    
     overflow: hidden;
     white-space: nowrap;
 }
@@ -71,15 +85,27 @@ body {
 .del-button {
     background-color: rgb(179, 27, 27);
 }
+.del-button:hover {
+    background-color: rgb(117, 17, 17);
+}
 
 .operator-button {
     background-color: rgb(0, 77, 128);
+}
+.operator-button:hover {
+    background-color: rgb(1, 57, 95);
 }
 
 .equals-button {
     background-color: rgb(216, 147, 20);
 }
+.equals-button:hover {
+    background-color: rgb(156, 107, 15);
+}
 
 .parentheses-button {
     background-color: rgb(19, 114, 19);
+}
+.parentheses-button:hover {
+    background-color: rgb(13, 73, 13);
 }
