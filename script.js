@@ -1,19 +1,20 @@
 let maxDigits = 14;
 
 function add(a, b) {
-    return round(a + b);
+    console.log(typeof a, typeof b, a, b);
+    return round(+a + +b);
 }
 
 function subtract(a, b) {
-    return round(a - b);
+    return round(+a - +b);
 }
 
 function multiply(a, b) {
-    return round(a * b);
+    return round(+a * +b);
 }
 
 function divide(a, b) {
-    return round(a / b);
+    return round(+a / +b);
 }
 
 function round(num) {
@@ -26,19 +27,19 @@ function round(num) {
 }
 
 let operand1 = 0;
-let operator;
+let operator = '+';
 let operand2 = 0;
 let afterEquals = false;
 
 function operate(operand1, operator, operand2) {
     switch (operator) {
-        case ("+"):
+        case ('+'):
             return add(operand1, operand2);
-        case ("-"):
+        case ('-'):
             return subtract(operand1, operand2);
-        case ("x"):
+        case ('x'):
             return multiply(operand1, operand2);
-        case ("÷"):
+        case ('÷'):
             return divide(operand1, operand2);
         default:
             break;
@@ -47,26 +48,26 @@ function operate(operand1, operator, operand2) {
 
 let buttons = 
 [
-    ["(", ")", "AC", "DEL"],
-    ["7", "8", "9", "÷"],
-    ["4", "5", "6", "x"],
-    ["1", "2", "3", "-"],
-    ["0", ".", "=", "+"]
+    ['(', ')', 'AC', 'DEL'],
+    ['7', '8', '9', '÷'],
+    ['4', '5', '6', 'x'],
+    ['1', '2', '3', '-'],
+    ['0', '.', '=', '+']
 ];
 
 let operators = [
     '+', '-', 'x', '÷'
 ];
 
-const calculator = document.querySelector(".calculator");
-const calcButtons = document.querySelector(".buttons");
+const calculator = document.querySelector('.calculator');
+const calcButtons = document.querySelector('.buttons');
 function createButtons() {
     for (let i = 0; i < buttons.length; i++) {
-        let row = document.createElement("div");
-        row.classList.toggle("row");
+        let row = document.createElement('div');
+        row.classList.toggle('row');
         for (let j = 0; j < buttons[i].length; j++) {
-            let button = document.createElement("div");
-            button.classList.toggle("calc-button");
+            let button = document.createElement('div');
+            button.classList.toggle('calc-button');
             button.textContent = buttons[i][j];
             row.append(button);
         }
@@ -76,25 +77,28 @@ function createButtons() {
 
 createButtons();
 
-const displayArea = document.querySelector(".display-curr");
-const displayPrevArea = document.querySelector(".display-prev");
+const displayArea = document.querySelector('.display-curr');
+const displayPrevArea = document.querySelector('.display-prev');
 
-calcButtons.addEventListener("click", (e) => {
+calcButtons.addEventListener('click', (e) => {
     const buttonPressed = e.target.textContent;
-    if (!e.target.classList.contains("calc-button")) {
+    if (!e.target.classList.contains('calc-button')) {
         return;
     }
     performClick(buttonPressed);
 });
 
 function evaluateExpression() {
-    let result = operate(operand1, operator, operand2);
+    let result = operate(+operand1, operator, +operand2);
     displayArea.textContent = result;
     operand1 = +result;
     operator = null;
     operand2 = 0;
 }
 
+function hasLeadingZeros(string) {
+    return string.split('0').length - 1 === string.length;
+}
 let isAfterOperation = false;
 
 function performClick(buttonPressed) {
@@ -105,8 +109,8 @@ function performClick(buttonPressed) {
         operand2 *= 10;
         operand2 += +buttonPressed;
 
-        if (displayArea.textContent.split('0').length - 1 === displayArea.textContent.length) {
-            displayArea.textContent = "";
+        if (hasLeadingZeros(displayArea.textContent)) {
+            displayArea.textContent = '';
         }
 
         if (isAfterOperation) {
@@ -116,21 +120,25 @@ function performClick(buttonPressed) {
             displayArea.textContent += buttonPressed;
         }
     } else if (operators.includes(buttonPressed)) {
-        
-        afterEquals = false;
-        if (operator === undefined || operator === null) {
-            operator = '+';
-        }
         if (isAfterOperation) {
             displayPrevArea.textContent = displayPrevArea.textContent.slice(0, -1);
+        } else if (afterEquals) {
+            displayPrevArea.textContent = displayArea.textContent;
+            displayArea.textContent = '0';
+            operand1 = operand2;
+            operand2 = 0;
         } else {
             evaluateExpression();
             displayPrevArea.textContent = displayArea.textContent;
             isAfterOperation = true;
         }
+        afterEquals = false;
         displayPrevArea.textContent += buttonPressed;
         operator = buttonPressed;
     } else if (buttonPressed === '=') {
+        if (hasLeadingZeros(displayPrevArea.textContent)) {
+            displayPrevArea.textContent = '';
+        }
         displayPrevArea.textContent += displayArea.textContent;
         displayPrevArea.textContent += '=';
         evaluateExpression();
@@ -145,14 +153,15 @@ function performClick(buttonPressed) {
 
 function reset() {
     operand1 = 0;
-    operator = null;
+    operand2 = 0;
+    operator = '+';
     displayArea.textContent = '0';
     displayPrevArea.textContent = '0';
     afterEquals = false;
     isAfterOperation = false;
 }
 
-document.addEventListener("keypress", (e) => {
+document.addEventListener('keypress', (e) => {
     for (let row of buttons) {
         for (let button of row) {
             if (button === e.key) {
