@@ -67,3 +67,19 @@ body {
     font-size: 30px;
     color:rgb(82, 73, 64)
 }
+
+.del-button {
+    background-color: rgb(179, 27, 27);
+}
+
+.operator-button {
+    background-color: rgb(0, 77, 128);
+}
+
+.equals-button {
+    background-color: rgb(216, 147, 20);
+}
+
+.parentheses-button {
+    background-color: rgb(19, 114, 19);
+}

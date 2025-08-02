@@ -51,7 +51,7 @@ let buttons =
     ['7', '8', '9', '÷'],
     ['4', '5', '6', 'x'],
     ['1', '2', '3', '-'],
-    ['0', '.', '=', '+']
+    ['.', '0', '=', '+']
 ];
 
 let operators = [
@@ -68,6 +68,15 @@ function createButtons() {
             let button = document.createElement('div');
             button.classList.toggle('calc-button');
             button.textContent = buttons[i][j];
+            if (buttons[i][j] === 'AC' || buttons[i][j] === 'DEL') {
+                button.classList.toggle('del-button');
+            } else if (operators.includes(buttons[i][j])) {
+                button.classList.toggle('operator-button');
+            } else if (buttons[i][j] === '=') {
+                button.classList.toggle('equals-button');
+            } else if (buttons[i][j] === '(' || buttons[i][j] === ')') {
+                button.classList.toggle('parentheses-button');
+            }
             row.append(button);
         }
         calcButtons.append(row);
