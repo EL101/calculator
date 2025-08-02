@@ -1,8 +1,6 @@
 let maxDigits = 14;
 
 function add(a, b) {
-    console.log(a, typeof a);
-    console.log(b, typeof b);
     return round(a + b);
 }
 
@@ -51,15 +49,17 @@ function operate(operand1, operator, operand2) {
 
 let buttons = 
 [
-    ["(", ")", "%", "AC"],
+    ["(", ")", "AC", "DEL"],
     ["7", "8", "9", "÷"],
     ["4", "5", "6", "x"],
     ["1", "2", "3", "-"],
     ["0", ".", "=", "+"]
 ];
+
 let operators = [
     '+', '-', 'x', '÷'
 ];
+
 const calculator = document.querySelector(".calculator");
 const calcButtons = document.querySelector(".buttons");
 function createButtons() {
@@ -78,7 +78,9 @@ function createButtons() {
 
 createButtons();
 
-const displayArea = document.querySelector(".display");
+const displayArea = document.querySelector(".display-curr");
+const displayPrevArea = document.querySelector(".display-prev");
+
 calcButtons.addEventListener("click", (e) => {
     const buttonPressed = e.target.textContent;
     if (!e.target.classList.contains("calc-button")) {
@@ -94,6 +96,9 @@ function evaluateExpression() {
     operator = null;
     operand2 = 0;
 }
+
+let isAfterOperation = false;
+
 function performClick(buttonPressed) {
     if (buttonPressed >= '0' && buttonPressed <= '9') {
         if (afterEquals) {
@@ -105,20 +110,31 @@ function performClick(buttonPressed) {
         if (displayArea.textContent.split('0').length - 1 === displayArea.textContent.length) {
             displayArea.textContent = "";
         }
-        displayArea.textContent += buttonPressed;
+
+        if (isAfterOperation) {
+            displayArea.textContent = buttonPressed;
+            isAfterOperation = false;
+        } else {
+            displayArea.textContent += buttonPressed;
+        }
     } else if (operators.includes(buttonPressed)) {
+        
         afterEquals = false;
         if (operator === undefined || operator === null) {
             operator = '+';
         }
-        evaluateExpression();
-        if (operators.includes(displayArea.textContent.at(-1))) {
-            displayArea.textContent = displayArea.textContent.slice(0, -1);
+        if (isAfterOperation) {
+            displayPrevArea.textContent = displayPrevArea.textContent.slice(0, -1);
+        } else {
+            evaluateExpression();
+            displayPrevArea.textContent = displayArea.textContent;
+            isAfterOperation = true;
         }
-        displayArea.textContent += buttonPressed;
+        displayPrevArea.textContent += buttonPressed;
         operator = buttonPressed;
-        
     } else if (buttonPressed === '=') {
+        displayPrevArea.textContent += displayArea.textContent;
+        displayPrevArea.textContent += '=';
         evaluateExpression();
         operand2 = operand1;
         operand1 = 0;
@@ -133,5 +149,7 @@ function reset() {
     operand1 = 0;
     operator = null;
     displayArea.textContent = '0';
+    displayPrevArea.textContent = '0';
     afterEquals = false;
+    isAfterOperation = false;
 }

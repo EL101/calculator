@@ -46,13 +46,23 @@ body {
 .display {
     border: 3px solid black;
     width: inherit;
-    height: 75px;
+    height: 130px;
     border-radius: 10px;
     padding: 10px;
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    font-size: 50px;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-evenly;
+    
     overflow: hidden;
     white-space: nowrap;
+}
+
+.display-curr {
+    font-size: 50px;
+}
+
+.display-prev {
+    font-size: 30px;
+    color:rgb(82, 73, 64)
 }
