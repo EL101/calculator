@@ -190,6 +190,27 @@ function performClick(buttonPressed) {
         }
         isAfterOperation = false;
         displayArea.textContent += '.';
+    } else if (buttonPressed === 'DEL') {
+        if (isAfterOperation || afterEquals || displayArea.textContent === '0') {
+            reset();
+        } else {
+            let lastDigit = displayArea.textContent.at(-1);
+            displayArea.textContent = displayArea.textContent.slice(0, -1);
+            if (!hasDecimal) {
+                operand2 = Math.floor(operand2 / 10);
+            } else {
+                if (lastDigit === '.') {
+                    hasDecimal = false;
+                    currDecimal = 1;
+                } else {
+                    currDecimal *= 10;
+                    operand2 -= currDecimal * +lastDigit;
+                }
+            }
+            if (displayArea.textContent === '') {
+                isAfterOperation = true;
+            }
+        }
     }
 }
 
@@ -206,7 +227,8 @@ function reset() {
     divByZero = false;
 }
 
-document.addEventListener('keypress', (e) => {
+document.addEventListener('keydown', (e) => {
+    console.log(e.key);
     for (let row of buttons) {
         for (let button of row) {
             if (button === e.key) {
@@ -221,5 +243,8 @@ document.addEventListener('keypress', (e) => {
         performClick('÷');
     } else if (e.key === 'Enter') {
         performClick('=');
+    } else if (e.key === 'Delete' || e.key === 'Backspace') {
+        console.log('dafuq');
+        performClick('DEL');
     }
 });
