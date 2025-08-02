@@ -1,4 +1,12 @@
 let maxDigits = 14;
+let operand1 = 0;
+let operator = '+';
+let operand2 = 0;
+let afterEquals = false;
+let isAfterOperation = false;
+let hasDecimal = false;
+let currDecimal = 1;
+let divByZero = false;
 
 function add(a, b) {
     return round(a + b);
@@ -13,6 +21,11 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
+    if (b === 0) {
+        afterEquals = true;
+        divByZero = true;
+        return 'Cant divide by 0';
+    }
     return round(a / b);
 }
 
@@ -25,10 +38,7 @@ function round(num) {
     return num.toExponential(maxDigits - 5);
 }
 
-let operand1 = 0;
-let operator = '+';
-let operand2 = 0;
-let afterEquals = false;
+
 
 function operate(operand1, operator, operand2) {
     switch (operator) {
@@ -111,11 +121,10 @@ function hasLeadingZeros(string) {
     return string.split('0').length - 1 === string.length;
 }
 
-let isAfterOperation = false;
-let hasDecimal = false;
-let currDecimal = 1;
-
 function performClick(buttonPressed) {
+    if (divByZero) {
+        reset();
+    }
     if (buttonPressed >= '0' && buttonPressed <= '9') {
         if (afterEquals) {
             reset();
@@ -155,6 +164,9 @@ function performClick(buttonPressed) {
         displayPrevArea.textContent += buttonPressed;
         operator = buttonPressed;
     } else if (buttonPressed === '=') {
+        if (afterEquals) {
+            reset();
+        }
         if (hasLeadingZeros(displayPrevArea.textContent)) {
             displayPrevArea.textContent = '';
         }
@@ -191,6 +203,7 @@ function reset() {
     isAfterOperation = false;
     hasDecimal = false;
     currDecimal = 1;
+    divByZero = false;
 }
 
 document.addEventListener('keypress', (e) => {
