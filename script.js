@@ -1,6 +1,7 @@
 let maxDigits = 14;
-let operand1 = 0;
-let operator = '+';
+let operations = [
+    [0, '+']
+];
 let operand2 = 0;
 let afterEquals = false;
 let isAfterOperation = false;
@@ -107,13 +108,17 @@ calcButtons.addEventListener('click', (e) => {
 });
 
 function evaluateExpression() {
-    console.log(parseFloat(operand1), parseFloat(operand2));
+    console.log(parseFloat(operations[operations.length - 1][0]), parseFloat(operand2));
     hasDecimal = false;
     currDecimal = 1;
-    let result = operate(parseFloat(operand1), operator, parseFloat(operand2));
+    let result = operate(parseFloat(
+    operations[operations.length - 1][0]), 
+    operations[operations.length - 1][1],
+    parseFloat(operand2));
+    
     displayArea.textContent = result;
-    operand1 = parseFloat(result);
-    operator = null;
+    operations[operations.length - 1][0] = parseFloat(result);
+    operations[operations.length - 1][1] = null;
     operand2 = 0;
 }
 
@@ -122,6 +127,7 @@ function hasLeadingZeros(string) {
 }
 
 function performClick(buttonPressed) {
+    console.log(operations);
     if (divByZero) {
         reset();
     }
@@ -153,7 +159,7 @@ function performClick(buttonPressed) {
         } else if (afterEquals) {
             displayPrevArea.textContent = displayArea.textContent;
             displayArea.textContent = '0';
-            operand1 = operand2;
+            operations[operations.length - 1][0] = operand2;
             operand2 = 0;
         } else {
             evaluateExpression();
@@ -162,7 +168,7 @@ function performClick(buttonPressed) {
         }
         afterEquals = false;
         displayPrevArea.textContent += buttonPressed;
-        operator = buttonPressed;
+        operations[operations.length - 1][1] = buttonPressed;
     } else if (buttonPressed === '=') {
         if (afterEquals) {
             reset();
@@ -173,9 +179,9 @@ function performClick(buttonPressed) {
         displayPrevArea.textContent += displayArea.textContent;
         displayPrevArea.textContent += '=';
         evaluateExpression();
-        operand2 = operand1;
-        operand1 = 0;
-        operator = null;
+        operand2 = operations[operations.length - 1][0];
+        operations[operations.length - 1][0] = 0;
+        operations[operations.length - 1][1] = null;
         afterEquals = true;
     } else if (buttonPressed === 'AC') {
         reset();
@@ -215,9 +221,10 @@ function performClick(buttonPressed) {
 }
 
 function reset() {
-    operand1 = 0;
+    operations = [
+        [0, '+']
+    ];
     operand2 = 0;
-    operator = '+';
     displayArea.textContent = '0';
     displayPrevArea.textContent = '0';
     afterEquals = false;
