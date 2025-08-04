@@ -217,14 +217,16 @@ function performClick(buttonPressed) {
             }
         }
     } else if (buttonPressed === '%') {
-        operand2 /= 100;
-        displayArea.textContent /= 100;
+        operand2 = divide(operand2, 100);
+        displayArea.textContent = String(operand2);
         if (!hasDecimal) {
             currDecimal /= 10;
         }
         currDecimal /= 100;
         hasDecimal = true;
-
+    } else if (buttonPressed === '+/-') {
+        operand2 = multiply(operand2, -1);
+        displayArea.textContent = String(operand2);
     }
 }
 
