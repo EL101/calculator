@@ -103,9 +103,9 @@ h1 {
     background-color: rgb(156, 107, 15);
 }
 
-.parentheses-button {
+.special-button {
     background-color: rgb(19, 114, 19);
 }
-.parentheses-button:hover {
+.special-button:hover {
     background-color: rgb(13, 73, 13);
 }

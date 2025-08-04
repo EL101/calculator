@@ -57,7 +57,7 @@ function operate(operand1, operator, operand2) {
 
 let buttons = 
 [
-    ['(', ')', 'AC', 'DEL'],
+    ['+/-', '%', 'AC', 'DEL'],
     ['7', '8', '9', '÷'],
     ['4', '5', '6', 'x'],
     ['1', '2', '3', '-'],
@@ -80,12 +80,12 @@ function createButtons() {
             button.textContent = buttons[i][j];
             if (buttons[i][j] === 'AC' || buttons[i][j] === 'DEL') {
                 button.classList.toggle('del-button');
+            } else if (buttons[i][j] === '+/-' || buttons[i][j] === '%') {
+                button.classList.toggle('special-button');
             } else if (operators.includes(buttons[i][j])) {
                 button.classList.toggle('operator-button');
             } else if (buttons[i][j] === '=') {
                 button.classList.toggle('equals-button');
-            } else if (buttons[i][j] === '(' || buttons[i][j] === ')') {
-                button.classList.toggle('parentheses-button');
             }
             row.append(button);
         }
@@ -107,7 +107,7 @@ calcButtons.addEventListener('click', (e) => {
 });
 
 function evaluateExpression() {
-    console.log(parseFloat(operand1), parseFloat(operand2));
+    console.log(parseFloat(operand1), operator, parseFloat(operand2));
     hasDecimal = false;
     currDecimal = 1;
     let result = operate(parseFloat(operand1), operator, parseFloat(operand2));
@@ -148,6 +148,8 @@ function performClick(buttonPressed) {
             displayArea.textContent += buttonPressed;
         }
     } else if (operators.includes(buttonPressed)) {
+        hasDecimal = false;
+        currDecimal = 1;
         if (isAfterOperation) {
             displayPrevArea.textContent = displayPrevArea.textContent.slice(0, -1);
         } else if (afterEquals) {
@@ -185,7 +187,8 @@ function performClick(buttonPressed) {
         }
         hasDecimal = true;
         currDecimal *= 0.1;
-        if (hasLeadingZeros(displayArea.textContent)) {
+
+        if (hasLeadingZeros(displayArea.textContent) || isAfterOperation) {
             displayArea.textContent = '0';
         }
         isAfterOperation = false;
@@ -205,12 +208,22 @@ function performClick(buttonPressed) {
                 } else {
                     currDecimal *= 10;
                     operand2 -= currDecimal * +lastDigit;
+                    console.log(currDecimal);
                 }
             }
             if (displayArea.textContent === '') {
                 isAfterOperation = true;
             }
         }
+    } else if (buttonPressed === '%') {
+        operand2 /= 100;
+        displayArea.textContent /= 100;
+        if (!hasDecimal) {
+            currDecimal /= 10;
+        }
+        currDecimal /= 100;
+        hasDecimal = true;
+
     }
 }
 
