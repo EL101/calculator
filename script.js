@@ -30,6 +30,7 @@ function divide(a, b) {
 }
 
 function round(num) {
+    num = Number(num.toFixed(maxDigits - 2));
     let strNum = String(num);
     if (strNum.length <= maxDigits) {
         return num;
