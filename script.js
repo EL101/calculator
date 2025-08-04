@@ -108,7 +108,6 @@ calcButtons.addEventListener('click', (e) => {
 });
 
 function evaluateExpression() {
-    console.log(parseFloat(operand1), operator, parseFloat(operand2));
     hasDecimal = false;
     currDecimal = 1;
     let result = operate(parseFloat(operand1), operator, parseFloat(operand2));
@@ -167,6 +166,9 @@ function performClick(buttonPressed) {
         displayPrevArea.textContent += buttonPressed;
         operator = buttonPressed;
     } else if (buttonPressed === '=') {
+        if (isAfterOperation) {
+            return;
+        }
         if (afterEquals) {
             reset();
         }
@@ -209,7 +211,6 @@ function performClick(buttonPressed) {
                 } else {
                     currDecimal *= 10;
                     operand2 -= currDecimal * +lastDigit;
-                    console.log(currDecimal);
                 }
             }
             if (displayArea.textContent === '') {
@@ -244,7 +245,6 @@ function reset() {
 }
 
 document.addEventListener('keydown', (e) => {
-    console.log(e.key);
     for (let row of buttons) {
         for (let button of row) {
             if (button === e.key) {
@@ -260,7 +260,6 @@ document.addEventListener('keydown', (e) => {
     } else if (e.key === 'Enter') {
         performClick('=');
     } else if (e.key === 'Delete' || e.key === 'Backspace') {
-        console.log('dafuq');
         performClick('DEL');
     }
 });
